@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-4"><i class="fas fa-book-open me-2"></i>All Courses</h3>
+
+    <a href="{% url 'course_add' %}" class="btn btn-primary mb-3"><i class="fas fa-plus-circle"></i> Add New Course</a>
+
+    {% if courses %}
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Course Name</th>
+                <th>Code</th>
+                <th>Credit</th>
+                <th>Instructor</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.credit }}</td>
+                <td>{{ course.instructor }}</td>
+                <td>
+                    <a href="{% url 'course_edit' course.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'course_delete' course.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted">No courses found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

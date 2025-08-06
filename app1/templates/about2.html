@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="about-section">
+  <h2 class="text-primary fw-bold mb-3"><i class="fas fa-info-circle me-2"></i>About Our University Portal</h2>
+  <p class="text-muted fs-5">
+    This portal is designed to streamline the management of students, faculty, and library resources for educational institutions.
+    It provides a centralized dashboard for administrators to efficiently handle authentication, academic records, and digital assets.
+  </p>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <img src="https://cdn.dribbble.com/users/11332246/screenshots/17944463/media/b45ab62fe3f3bef7480914ad2a27fafc.png?resize=1200x900&vertical=center" class="img-fluid rounded shadow" alt="University Portal">
+    </div>
+    <div class="col-md-6">
+      <ul class="list-group list-group-flush fs-6">
+        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Student & Faculty Management</li>
+        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Secure Authentication System</li>
+        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Library Resource Tracking</li>
+        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Responsive & User-Friendly Design</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+  .about-section {
+    padding: 1rem 0;
+  }
+</style>
+{% endblock %}
