@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-6s7eu2c-^ck$(!@9^mc6shn!d6w7@(lploh-os+o*utw!h*2w!
 DEBUG = True
 
 ALLOWED_HOSTS = ['university-fq13.onrender.com', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://university-fq13.onrender.com']
+
 
 
 # Application definition
