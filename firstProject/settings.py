@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
+import dj_database_url  # Make sure to install this via pip
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6s7eu2c-^ck$(!@9^mc6shn!d6w7@(lploh-os+o*utw!h*2w!'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-6s7eu2c-^ck$(!@9^mc6shn!d6w7@(lploh-os+o*utw!h*2w!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['university-fq13.onrender.com', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://university-fq13.onrender.com']
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ⚡️ Add this for serving static files on Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,7 +48,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.template.context_processors.auth',
                 'django.template.context_processors.messages',
-                'django.template.context_processors.static',  # 🔧 Add this
             ],
         },
     },
@@ -54,12 +55,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'firstProject.wsgi.application'
 
-# Database
+# Database configuration for Render (use dj-database-url)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
 
 # Password validation
@@ -84,12 +86,15 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
-# 🔧 Static files (CSS, JS, Images)
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # required for production
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # optional for local dev
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# 🔧 Media files
+# Whitenoise configuration
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
