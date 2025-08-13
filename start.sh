@@ -1,12 +1,18 @@
 #!/bin/bash
-# Exit if any command fails
-set -o errexit  
+# Exit on any error
+set -o errexit
 
-# Run migrations
-python manage.py migrate
+echo "🚀 Starting Django project with Whitenoise & Gunicorn..."
 
-# Collect static files
+# Apply database migrations
+python manage.py migrate --noinput
+
+# Collect static files for Whitenoise
 python manage.py collectstatic --noinput
 
-# Start Gunicorn server
-gunicorn firstProject.wsgi:application --bind 0.0.0.0:$PORT
+# Start Gunicorn with 4 workers (good for small Render instances)
+gunicorn firstProject.wsgi:application \
+    --bind 0.0.0.0:$PORT \
+    --workers 4 \
+    --threads 2 \
+    --timeout 120
